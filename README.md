@@ -1,65 +1,106 @@
-# Business Analytics in Retail
+# Business Analytics with Python
 
-This repository contains the code and data accompanying the book "Business Analytics in Retail: A Comprehensive Analysis for Data-Driven Decision-Making". It provides practical implementations of retail analytics concepts using Python.
+A comprehensive retail analytics dashboard project that demonstrates business analytics techniques using Python and a React frontend.
 
 ## Project Structure
 
 ```
 business-analytics-retail/
-├── data/
-│   └── retail_sales.csv       # Sample retail dataset
-├── notebooks/
-│   └── retail_analysis.ipynb  # Main analysis notebook
-├── requirements.txt           # Python dependencies
-└── README.md                 # This file
+│
+├── data/                 # Data storage for retail datasets
+│
+├── src/                  # Backend Python code
+│   ├── data/             # Data processing and handling scripts
+│   └── analysis/         # Analysis modules
+│
+├── frontend/             # React frontend application
+│   ├── src/
+│   │   ├── components/   # React components
+│   │   ├── pages/        # Page components
+│   │   └── services/     # API services
+│   └── public/           # Static assets
+│
+└── book/                 # Book chapters and materials
 ```
 
-## Setup Instructions
+## Features
 
-1. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+- Interactive retail analytics dashboard
+- Sales and store performance visualizations
+- Data-driven insights from retail datasets
+- Modern React frontend with Chart.js
+- Responsive design for desktop and mobile
+
+## Backend Technologies
+
+- Python
+- Pandas
+- NumPy
+- Matplotlib
+- Seaborn
+
+## Frontend Technologies
+
+- React
+- TypeScript
+- Chart.js
+- CSS3
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.8+
+- Node.js 14+
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/Organica-Ai-Solutions/BusinessAnalyticswithPython.git
+   cd BusinessAnalyticswithPython
    ```
 
-2. Install dependencies:
-   ```bash
+2. Install backend dependencies:
+   ```
    pip install -r requirements.txt
    ```
 
-3. Start Jupyter Notebook:
-   ```bash
-   jupyter notebook
+3. Install frontend dependencies:
+   ```
+   cd frontend
+   npm install
    ```
 
-4. Open `notebooks/retail_analysis.ipynb` to begin the analysis.
+### Running the Application
 
-## Analysis Components
+1. Start the backend server:
+   ```
+   cd src
+   python app.py
+   ```
 
-The notebook implements various retail analytics concepts including:
-- Key Performance Indicators (KPIs)
-- Time Series Analysis and Forecasting
-- Store Segmentation
-- Market Basket Analysis
-- Visualization and Reporting
+2. Start the frontend development server:
+   ```
+   cd frontend
+   npm run dev
+   ```
 
-## Dataset Description
+3. Open your browser and navigate to `http://localhost:5173`
 
-The sample dataset (`retail_sales.csv`) contains the following fields:
-- Date: Transaction date
-- Store: Store identifier
-- Department: Department name
-- Sales: Transaction amount
-- Customers: Number of customers
-- Transaction_ID: Unique transaction identifier
-- Product: Product name
-- Quantity: Quantity sold
+## Data Sources
 
-## Requirements
-
-- Python 3.8+
-- See requirements.txt for Python package dependencies
+The retail dataset used in this project contains:
+- Sales data across multiple stores and departments
+- Store features and attributes
+- External factors like temperature, fuel prices, and economic indicators
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Walmart Retail Dataset from Kaggle
+- Business Analytics textbook and materials 
