@@ -1,5 +1,9 @@
 # Business Analytics with Python
 
+<p align="center">
+  <img src="book/images/bussines_front_cover.png" alt="Business Analytics with Python Book Cover" width="400"/>
+</p>
+
 A comprehensive retail analytics dashboard project that demonstrates business analytics techniques using Python and a React frontend.
 
 ## Project Structure

@@ -1,5 +1,9 @@
 # Business Analytics with Python: A Practical Guide for Data Analysts & Business Professionals
 
+<p align="center">
+  <img src="images/bussines_front_cover.png" alt="Business Analytics with Python Book Cover" width="400"/>
+</p>
+
 ## Project Overview
 
 This repository contains the code and data accompanying the book "Business Analytics in Retail: A Comprehensive Analysis for Data-Driven Decision-Making". It provides practical implementations of retail analytics concepts using Python.
