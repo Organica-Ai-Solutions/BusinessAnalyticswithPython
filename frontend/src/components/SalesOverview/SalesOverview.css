@@ -1,0 +1,72 @@
+.sales-overview {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.chart-row {
+  width: 100%;
+}
+
+.chart-item {
+  width: 100%;
+}
+
+.chart-item h3 {
+  font-size: 1rem;
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+.chart-wrapper {
+  height: 250px;
+  position: relative;
+}
+
+.sales-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.highlight-item {
+  flex: 1;
+  min-width: 200px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 15px;
+}
+
+.highlight-item h4 {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 12px;
+}
+
+.highlight-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.stat-label {
+  color: #7f8c8d;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+@media (max-width: 768px) {
+  .chart-wrapper {
+    height: 200px;
+  }
+} 

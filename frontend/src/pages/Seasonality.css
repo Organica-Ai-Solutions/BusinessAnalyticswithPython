@@ -1,0 +1,62 @@
+.seasonality-page {
+  width: 100%;
+}
+
+.explanation {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.explanation p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.day-stats {
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.day-stats h4 {
+  font-size: 14px;
+  margin: 0 0 8px 0;
+  color: var(--text-color);
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+.stat-index {
+  font-size: 12px;
+  color: var(--light-text);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+} 

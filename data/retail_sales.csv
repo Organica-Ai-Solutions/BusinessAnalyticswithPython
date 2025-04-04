@@ -1,0 +1,19 @@
+Date,Store,Department,Sales,Customers,Transaction_ID,Product,Quantity
+2024-01-01,1,Electronics,1500.50,45,T001,Laptop,1
+2024-01-01,1,Electronics,800.25,30,T002,Smartphone,2
+2024-01-01,2,Clothing,450.75,25,T003,Jeans,3
+2024-01-01,2,Clothing,250.00,20,T004,T-Shirt,2
+2024-01-02,1,Electronics,2000.75,55,T005,TV,1
+2024-01-02,1,Electronics,600.50,35,T006,Headphones,3
+2024-01-02,2,Clothing,350.25,28,T007,Dress,1
+2024-01-02,3,Home,800.00,40,T008,Furniture,1
+2024-01-03,1,Electronics,1200.00,42,T009,Tablet,2
+2024-01-03,2,Clothing,550.50,32,T010,Jacket,1
+2024-01-03,3,Home,950.25,38,T011,Bedding,2
+2024-01-03,3,Home,400.75,25,T012,Kitchenware,3
+2024-01-04,1,Electronics,1800.25,50,T013,Gaming Console,1
+2024-01-04,2,Clothing,300.50,22,T014,Accessories,4
+2024-01-04,3,Home,750.75,35,T015,Lighting,2
+2024-01-05,1,Electronics,2200.00,60,T016,Camera,1
+2024-01-05,2,Clothing,480.25,30,T017,Shoes,2
+2024-01-05,3,Home,850.50,42,T018,Decor,3 
