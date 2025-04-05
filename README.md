@@ -1,30 +1,40 @@
-# Business Analytics - Retail Dashboard
+# Business Analytics in Retail: A Practical Guide
 
-A comprehensive retail analytics dashboard that provides insights into sales performance, store metrics, and business KPIs.
+<p align="center">
+  <img src="book/images/bussines_front_cover.png" alt="Book Cover" width="400"/>
+</p>
 
-## Features
+A comprehensive guide to building modern retail analytics solutions, complete with interactive dashboards and data-driven insights.
 
-- **Sales Analytics**
-  - Sales data with filtering options
-  - Sales metrics and period comparison
-  - Recent sales summary with top performers
-  - Store and department management
-  - Holiday sales comparison
+## 📚 Book Overview
 
-- **Business Analytics**
-  - Key Performance Indicators (KPIs)
-  - Store performance metrics
-  - Store type performance analysis
-  - Time series analysis
-  - Seasonality patterns
+This book provides a practical approach to implementing retail analytics using Python, Flask, and modern JavaScript. Through hands-on examples and real-world scenarios, you'll learn how to:
 
-## Tech Stack
+- Build interactive dashboards for retail analytics
+- Process and analyze retail data effectively
+- Create RESTful APIs with Flask
+- Implement modern frontend solutions
+- Deploy production-ready analytics applications
 
-### Frontend
-- React with TypeScript
-- Vite for build tooling
-- Tailwind CSS for styling
-- React Router for navigation
+## 📖 Book Structure
+
+### Part I: Foundations
+- Introduction to Retail Analytics
+- Understanding the Retail Data Landscape
+- Setting Up Your Development Environment
+- Data Processing and Analysis Fundamentals
+
+### Part II: Building the Analytics Platform
+- Designing the Backend Architecture
+- Creating RESTful APIs with Flask
+- Frontend Development with Modern JavaScript
+- Interactive Visualizations with Chart.js
+
+### Part III: Advanced Topics and Implementation
+- Real-time Analytics and Dashboard Updates
+- Deployment and Production Considerations
+
+## 🛠 Tech Stack
 
 ### Backend
 - Python with Flask
@@ -32,76 +42,13 @@ A comprehensive retail analytics dashboard that provides insights into sales per
 - RESTful API architecture
 - JSON response format
 
-## Project Structure
+### Frontend
+- Vanilla JavaScript
+- Chart.js for visualizations
+- Bootstrap for styling
+- Modern ES6+ features
 
-```
-.
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── utils/
-│   │   └── App.tsx
-│   ├── package.json
-│   └── vite.config.ts
-│
-└── backend/
-    ├── src/
-    │   ├── controllers/
-    │   │   ├── analytics_controller.py
-    │   │   └── sales_controller.py
-    │   ├── routes/
-    │   │   ├── analytics.py
-    │   │   └── sales.py
-    │   ├── utils/
-    │   │   ├── validation.py
-    │   │   ├── error_handlers.py
-    │   │   └── docs.py
-    │   ├── database/
-    │   │   └── db.py
-    │   └── app.py
-    └── requirements.txt
-```
-
-## API Documentation
-
-### Analytics Endpoints
-
-- `GET /api/analytics/kpis`
-  - Get key performance indicators
-  - Optional filters: start_date, end_date, store_id, dept_id
-
-- `GET /api/analytics/store-performance`
-  - Get detailed store performance metrics
-  - Optional filters: year, store_id, dept_id
-
-- `GET /api/analytics/store-type-performance`
-  - Get performance metrics by store type
-  - Optional filter: year
-
-- `GET /api/analytics/time-series`
-  - Get time series sales data
-  - Optional filters: start_date, end_date
-
-### Sales Endpoints
-
-- `GET /api/sales`
-  - Get sales data with filtering
-  - Optional filters: store_id, dept_id, start_date, end_date, limit
-
-- `GET /api/sales/metrics`
-  - Get sales metrics with period comparison
-
-- `GET /api/sales/recent-summary`
-  - Get recent sales summary with top performers
-
-- `GET /api/sales/stores`
-  - Get list of all stores
-
-- `GET /api/sales/departments`
-  - Get list of all departments
-
-## Setup and Installation
+## 🚀 Getting Started
 
 1. Clone the repository:
    ```bash
@@ -126,11 +73,47 @@ A comprehensive retail analytics dashboard that provides insights into sales per
    ```
 
 4. Access the application:
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:5000
-   - API Documentation: http://localhost:5000/api/docs
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5001
+   - API Documentation: http://localhost:5001/api/docs
 
-## Development
+## 📊 Features
+
+- **Sales Analytics**
+  - Real-time sales data visualization
+  - Period-over-period comparisons
+  - Store performance metrics
+  - Department-level analysis
+
+- **Business Intelligence**
+  - Key Performance Indicators (KPIs)
+  - Store performance rankings
+  - Inventory analytics
+  - Trend analysis
+
+## 🔧 Development
+
+### Project Structure
+```
+.
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── database/
+│   │   └── utils/
+│   └── requirements.txt
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── services/
+│   │   └── styles/
+│   └── package.json
+└── book/
+    ├── chapters/
+    ├── images/
+    └── manuscript.md
+```
 
 ### Running Tests
 ```bash
@@ -143,23 +126,17 @@ cd frontend
 npm test
 ```
 
-### Code Style
-- Backend: Follow PEP 8 guidelines
-- Frontend: ESLint and Prettier configuration provided
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
+## 🤝 Contributing
 
-- This project was created to demonstrate best practices in retail analytics
-- Data is based on real-world retail scenarios 
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## 📬 Contact
+
+- Author: Diego Torres
+- Organization: Organica AI Solutions
+- Website: [https://organica.ai](https://organica.ai)
+- Email: contact@organica.ai 
