@@ -138,5 +138,5 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 - Author: Diego Torres
 - Organization: Organica AI Solutions
-- Website: [https://organica.ai](https://organica.ai)
-- Email: contact@organica.ai 
+- Website: [https://organicaai.com](https://www.organicaai.com)
+- Email: contact@organica.ai
