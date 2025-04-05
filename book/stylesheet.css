@@ -1,0 +1,113 @@
+/* Main styles */
+body {
+    margin: 5%;
+    text-align: justify;
+    font-family: "Noto Serif", serif;
+    line-height: 1.5;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Noto Sans", sans-serif;
+    color: #2c3e50;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.2em;
+    border-bottom: 2px solid #2c3e50;
+    padding-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 1.8em;
+    border-bottom: 1px solid #bdc3c7;
+}
+
+/* Code blocks */
+pre {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 1em;
+    margin: 1em 0;
+    overflow-x: auto;
+    font-family: "Source Code Pro", monospace;
+    font-size: 0.9em;
+}
+
+code {
+    font-family: "Source Code Pro", monospace;
+    background-color: #f8f9fa;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+/* Links */
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 0.5em;
+}
+
+th {
+    background-color: #f8f9fa;
+}
+
+/* Blockquotes */
+blockquote {
+    margin: 1em 0;
+    padding: 0 1em;
+    border-left: 4px solid #bdc3c7;
+    color: #7f8c8d;
+}
+
+/* Lists */
+ul, ol {
+    margin: 1em 0;
+    padding-left: 2em;
+}
+
+li {
+    margin: 0.5em 0;
+}
+
+/* Table of Contents */
+nav#toc ol {
+    list-style-type: none;
+}
+
+nav#toc > ol > li {
+    margin-top: 1em;
+    font-weight: bold;
+}
+
+nav#toc > ol > li > ol > li {
+    font-weight: normal;
+} 

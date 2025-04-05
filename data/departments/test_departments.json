@@ -1,0 +1,17 @@
+[
+  {
+    "Dept": 1,
+    "Name": "Grocery",
+    "Category": "Food"
+  },
+  {
+    "Dept": 2,
+    "Name": "Pharmacy",
+    "Category": "Health"
+  },
+  {
+    "Dept": 3,
+    "Name": "Electronics",
+    "Category": "Technology"
+  }
+]

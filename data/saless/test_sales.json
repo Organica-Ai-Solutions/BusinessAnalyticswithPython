@@ -1,0 +1,23 @@
+[
+  {
+    "Store": 1,
+    "Dept": 1,
+    "Date": "2010-02-05",
+    "Weekly_Sales": 24924.5,
+    "IsHoliday": false
+  },
+  {
+    "Store": 1,
+    "Dept": 2,
+    "Date": "2010-02-12",
+    "Weekly_Sales": 46039.49,
+    "IsHoliday": true
+  },
+  {
+    "Store": 2,
+    "Dept": 1,
+    "Date": "2010-02-05",
+    "Weekly_Sales": 15000.5,
+    "IsHoliday": false
+  }
+]

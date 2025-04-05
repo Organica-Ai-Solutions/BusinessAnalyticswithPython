@@ -1,0 +1,37 @@
+---
+title: "Business Analytics in Retail: A Practical Guide"
+subtitle: "Building Interactive Dashboards with Python, Flask, and JavaScript"
+author:
+  - name: Your Name Here
+creator:
+  - role: author
+    text: Your Name Here
+publisher: Self-Published
+rights: Copyright © 2024. All rights reserved.
+language: en-US
+date: 2024
+description: |
+  A comprehensive guide to building and implementing retail analytics dashboards
+  using Python, Flask, and modern web technologies. This book covers essential
+  concepts in business analytics, data visualization, and practical implementation
+  through hands-on examples in the retail domain.
+subject:
+  - Business Analytics
+  - Retail Analytics
+  - Data Visualization
+  - Python Programming
+  - Web Development
+keywords:
+  - retail analytics
+  - business intelligence
+  - python
+  - flask
+  - javascript
+  - data visualization
+  - dashboard development
+  - sql
+  - chart.js
+  - bootstrap
+cover-image: images/bookcovernew.png
+css: stylesheet.css
+--- 

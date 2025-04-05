@@ -1,0 +1,44 @@
+[
+  {
+    "Store": 1,
+    "Date": "2010-02-05",
+    "Temperature": 42.31,
+    "Fuel_Price": 2.572,
+    "MarkDown1": 100.0,
+    "MarkDown2": NaN,
+    "MarkDown3": NaN,
+    "MarkDown4": NaN,
+    "MarkDown5": null,
+    "CPI": 211.096,
+    "Unemployment": 8.106,
+    "IsHoliday": false
+  },
+  {
+    "Store": 1,
+    "Date": "2010-02-12",
+    "Temperature": 38.51,
+    "Fuel_Price": 2.548,
+    "MarkDown1": 200.0,
+    "MarkDown2": 50.0,
+    "MarkDown3": NaN,
+    "MarkDown4": 10.0,
+    "MarkDown5": null,
+    "CPI": 211.242,
+    "Unemployment": 8.106,
+    "IsHoliday": true
+  },
+  {
+    "Store": 2,
+    "Date": "2010-02-05",
+    "Temperature": 39.93,
+    "Fuel_Price": 2.514,
+    "MarkDown1": 300.0,
+    "MarkDown2": NaN,
+    "MarkDown3": 25.0,
+    "MarkDown4": NaN,
+    "MarkDown5": null,
+    "CPI": 211.289,
+    "Unemployment": 8.106,
+    "IsHoliday": false
+  }
+]

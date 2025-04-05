@@ -75,38 +75,89 @@ The following adjustments improve alignment between the research and book conten
    - Smart shelf systems
    - Real-time inventory monitoring
 
+### Modern UI Components (Chapter 10)
+1. Animation Techniques:
+   - Scroll-based animations for immersive data exploration
+   - Animated gradients and transitions for enhanced user experience
+
+2. Interactive Visualizations:
+   - Real-time data filtering with date ranges
+   - Interactive charts with tooltips and drill-down capabilities
+
+3. Responsive Design:
+   - Bento grid layouts for organizing metrics
+   - Adaptive components that work across devices
+
+4. Performance Optimization:
+   - Component memoization techniques
+   - Debounced dimension tracking for responsive elements
+
 ## Project Structure
 
 ```
 business-analytics-retail/
-├── data/
-│   └── retail_sales.csv       # Sample retail dataset
-├── notebooks/
-│   └── retail_analysis.ipynb  # Main analysis notebook
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── database/
+│   │   ├── routes/
+│   │   └── utils/
+│   ├── venv/                  # Virtual environment (if created here)
+│   ├── app.py                 # Main Flask application
+│   └── requirements.txt       # Python dependencies
+├── frontend/
+│   ├── src/
+│   │   ├── services/
+│   │   ├── styles/
+│   │   └── main.js            # Main JavaScript logic
+│   ├── node_modules/          # Node dependencies (after npm install)
+│   ├── index.html             # Main HTML file
+│   ├── package.json           # Node dependencies & scripts
+│   └── vite.config.js         # Vite configuration
+├── data/                      # Original data file(s) might be here
 ├── book/                      # Book chapters in markdown format
-├── requirements.txt           # Python dependencies
 └── README.md                  # This file
 ```
 
 ## Setup Instructions
 
-1. Create a virtual environment:
+1. Create a virtual environment for the backend:
    ```bash
+   cd backend
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate  # On Windows use: venv\Scripts\activate
    ```
 
-2. Install dependencies:
+2. Install backend dependencies:
    ```bash
    pip install -r requirements.txt
+   # cd .. (Go back to root if you changed directory)
    ```
 
-3. Start Jupyter Notebook:
+3. Install frontend dependencies:
    ```bash
-   jupyter notebook
+   cd frontend
+   npm install
+   # cd .. (Go back to root if you changed directory)
    ```
 
-4. Open `notebooks/retail_analysis.ipynb` to begin the analysis.
+4. Initialize the database (if it doesn't exist):
+   The backend will attempt to initialize the SQLite database (`database.db`) and load sample data when first run.
+
+## Running the Application
+
+1. Start the backend server (from the project root directory):
+   ```bash
+   cd backend && python app.py 
+   ```
+   The backend API will be available at http://localhost:5001
+
+2. Start the frontend development server (from the project root directory):
+   ```bash
+   cd frontend && npm run dev
+   ```
+
+3. Access the application in your browser at https://localhost:3000/
 
 ## License
 
@@ -187,11 +238,29 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Emerging Technologies
 - Continuing Education
 
+### [Chapter 10: Modern UI Components for Retail Analytics Dashboards](chapter10.md)
+- Architecture Overview
+- Animation Techniques for Data Visualization
+  - Scroll-Based Animations
+  - Animated Gradients with SVG
+- Bento Grid Layout for Dashboard Metrics
+- Interactive Data Visualization Components
+- Performance Optimization Techniques
+
+### [API Documentation](api_documentation.md)
+- API Endpoints
+- Request Parameters
+- Response Formats
+- Frontend Integration
+- Error Handling
+- Pagination
+
 ## Supporting Materials
 
 - Python Notebooks: Detailed code examples for each chapter
 - Dataset: Retail sales data from 45 stores
-- Dashboard Templates: Ready-to-use Streamlit dashboards
+- Dashboard Templates: Ready-to-use React dashboards
+- API Documentation: Complete reference for backend endpoints
 - Additional Resources: Links to further reading and tools
 
 ## About the Authors

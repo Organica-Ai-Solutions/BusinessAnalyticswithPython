@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This chapter presents real-world applications and case studies that demonstrate how retail analytics principles and techniques are successfully implemented in practice. Each case study includes the business context, challenges faced, solutions implemented, and results achieved.
+This chapter presents real-world applications and case studies that demonstrate how retail analytics principles and techniques are successfully implemented in practice. The examples illustrate concepts similar to those used in our Flask/JavaScript project, although specific library choices might differ.
 
 ## Case Study 1: Inventory Optimization at a Major Pharmacy Chain
 
@@ -12,64 +12,50 @@ This chapter presents real-world applications and case studies that demonstrate 
 - Seasonal demand variations and regulatory compliance requirements
 
 ### Challenge
-The pharmacy chain struggled with:
 - High inventory carrying costs
 - Frequent stockouts of critical items
 - Excess inventory of slow-moving products
 - Complex replenishment decisions
 
-### Solution Implementation
+### Solution Approach (Conceptual Python/Pandas)
+
 ```python
 import pandas as pd
 import numpy as np
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
+# Note: Actual project might use SQL for aggregations
 
-def analyze_inventory_patterns(sales_data, inventory_data):
-    # Combine sales and inventory data
+def analyze_inventory_patterns(sales_df, inventory_df):
+    # Merge sales and inventory data (example)
+    # In practice, this join might happen in the database query
     merged_data = pd.merge(
-        sales_data,
-        inventory_data,
+        sales_df, inventory_df,
         on=['Store_ID', 'Product_ID', 'Date']
     )
     
-    # Calculate key metrics
+    # Calculate key metrics like Days of Supply
+    # Assume Average_Daily_Sales is pre-calculated or derived
     merged_data['Days_of_Supply'] = (
         merged_data['Current_Stock'] / 
         merged_data['Average_Daily_Sales']
-    )
+    ).fillna(np.inf) # Handle division by zero
     
-    merged_data['Stockout_Risk'] = np.where(
-        merged_data['Days_of_Supply'] < 7,
-        'High',
-        np.where(
-            merged_data['Days_of_Supply'] < 14,
-            'Medium',
-            'Low'
-        )
+    # Categorize Stockout Risk based on Days of Supply
+    merged_data['Stockout_Risk'] = np.select(
+        [
+            merged_data['Days_of_Supply'] < 7,
+            merged_data['Days_of_Supply'] < 14
+        ],
+        ['High', 'Medium'],
+        default='Low'
     )
     
     return merged_data
 
-def optimize_reorder_points(inventory_data, service_level=0.95):
-    # Calculate safety stock levels
-    z_score = stats.norm.ppf(service_level)
-    
-    inventory_data['Safety_Stock'] = (
-        z_score * 
-        inventory_data['Demand_StdDev'] * 
-        np.sqrt(inventory_data['Lead_Time'])
-    )
-    
-    # Set reorder points
-    inventory_data['Reorder_Point'] = (
-        inventory_data['Average_Daily_Demand'] * 
-        inventory_data['Lead_Time'] +
-        inventory_data['Safety_Stock']
-    )
-    
-    return inventory_data
+# Further steps might involve calculating safety stock and reorder points
+# based on demand variability and lead times, often using statistical methods.
+# def optimize_reorder_points(inventory_data, service_level=0.95): ...
 ```
+*(Note: Our project retrieves pre-calculated inventory metrics via the `/api/analytics/inventory/metrics` endpoint)*
 
 ### Results
 - 23% reduction in inventory carrying costs
@@ -91,61 +77,51 @@ def optimize_reorder_points(inventory_data, service_level=0.95):
 - Inconsistent cross-selling
 - Poor personalization
 
-### Solution Implementation
-```python
-def segment_customers(customer_data):
-    # Calculate RFM metrics
-    rfm = customer_data.groupby('Customer_ID').agg({
-        'Purchase_Date': lambda x: (pd.Timestamp.now() - x.max()).days,  # Recency
-        'Order_ID': 'count',  # Frequency
-        'Total_Amount': 'sum'  # Monetary
-    })
-    
-    # Rename columns
-    rfm.columns = ['Recency', 'Frequency', 'Monetary']
-    
-    # Scale the features
-    scaler = StandardScaler()
-    rfm_scaled = scaler.fit_transform(rfm)
-    
-    # Perform clustering
-    kmeans = KMeans(n_clusters=5, random_state=42)
-    rfm['Segment'] = kmeans.fit_predict(rfm_scaled)
-    
-    return rfm
+### Solution Approach (Conceptual RFM Analysis with Python/Pandas)
 
-def create_personalized_campaigns(customer_segments):
-    # Define campaign strategies per segment
-    campaign_strategies = {
-        0: {
-            'name': 'Champions',
-            'strategy': 'Reward and Retain',
-            'offers': ['Exclusive previews', 'VIP events', 'Early access']
-        },
-        1: {
-            'name': 'Loyal Customers',
-            'strategy': 'Upsell and Cross-sell',
-            'offers': ['Product recommendations', 'Bundle deals']
-        },
-        2: {
-            'name': 'Potential Loyalists',
-            'strategy': 'Engage and Grow',
-            'offers': ['Loyalty program benefits', 'Personalized content']
-        },
-        3: {
-            'name': 'At Risk',
-            'strategy': 'Reactivate',
-            'offers': ['Win-back offers', 'Surveys', 'Special discounts']
-        },
-        4: {
-            'name': 'Lost Customers',
-            'strategy': 'Reconnect',
-            'offers': ['Major discounts', 'New collection announcements']
-        }
-    }
+```python
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+# Note: Clustering (KMeans) is often used but not implemented in our current project.
+
+def segment_customers_rfm(customer_data):
+    # Assume customer_data has Customer_ID, Purchase_Date, Order_ID, Total_Amount
+    now = pd.Timestamp.now()
     
-    return campaign_strategies
+    # Calculate RFM metrics
+    rfm = customer_data.groupby('Customer_ID').agg(
+        Recency=('Purchase_Date', lambda x: (now - x.max()).days),
+        Frequency=('Order_ID', 'count'),
+        Monetary=('Total_Amount', 'sum')
+    ).reset_index()
+    
+    # Create scores based on quantiles (example)
+    rfm['R_Score'] = pd.qcut(rfm['Recency'], 5, labels=[5, 4, 3, 2, 1]) # Lower recency = higher score
+    rfm['F_Score'] = pd.qcut(rfm['Frequency'].rank(method='first'), 5, labels=[1, 2, 3, 4, 5])
+    rfm['M_Score'] = pd.qcut(rfm['Monetary'].rank(method='first'), 5, labels=[1, 2, 3, 4, 5])
+    
+    # Combine scores (example)
+    rfm['RFM_Segment'] = rfm['R_Score'].astype(str) + rfm['F_Score'].astype(str) + rfm['M_Score'].astype(str)
+    rfm['RFM_Score'] = rfm[['R_Score', 'F_Score', 'M_Score']].sum(axis=1)
+    
+    # Define segments based on scores (example definitions)
+    def assign_segment(row):
+        if row['RFM_Score'] >= 13:
+            return 'Champions'
+        elif row['RFM_Score'] >= 10:
+            return 'Loyal Customers'
+        # ... other segment definitions ...
+        else:
+            return 'Lost Customers'
+            
+    rfm['Segment_Name'] = rfm.apply(assign_segment, axis=1)
+    
+    return rfm[['Customer_ID', 'Segment_Name']]
+
+# The resulting segments can inform targeted marketing campaigns.
+# def create_personalized_campaigns(customer_segments): ...
 ```
+*(Note: Our project doesn't currently implement RFM segmentation or clustering.)*
 
 ### Results
 - 34% increase in campaign response rates
@@ -167,58 +143,38 @@ def create_personalized_campaigns(customer_segments):
 - Lost sales due to pricing errors
 - Competitive pressure
 
-### Solution Implementation
-```python
-def analyze_price_elasticity(sales_data):
-    # Calculate price elasticity
-    sales_data['Price_Lag'] = sales_data.groupby('Product_ID')['Price'].shift(1)
-    sales_data['Units_Lag'] = sales_data.groupby('Product_ID')['Units'].shift(1)
-    
-    sales_data['Price_Pct_Change'] = (
-        (sales_data['Price'] - sales_data['Price_Lag']) / 
-        sales_data['Price_Lag']
-    )
-    
-    sales_data['Units_Pct_Change'] = (
-        (sales_data['Units'] - sales_data['Units_Lag']) / 
-        sales_data['Units_Lag']
-    )
-    
-    sales_data['Elasticity'] = (
-        sales_data['Units_Pct_Change'] / 
-        sales_data['Price_Pct_Change']
-    )
-    
-    return sales_data
+### Solution Approach (Conceptual Price Elasticity Analysis)
 
-def optimize_prices(product_data, competitor_data, cost_data):
-    def calculate_optimal_price(row):
-        margin_target = row['Margin_Target']
-        cost = row['Cost']
-        elasticity = row['Elasticity']
-        comp_price = row['Competitor_Price']
-        
-        # Basic optimal price calculation
-        optimal_price = cost * (1 + margin_target)
-        
-        # Adjust for elasticity
-        if elasticity < -1:  # Elastic demand
-            optimal_price = optimal_price * 0.95
-        elif elasticity > -1:  # Inelastic demand
-            optimal_price = optimal_price * 1.05
-            
-        # Competitor price constraint
-        if optimal_price > comp_price * 1.1:
-            optimal_price = comp_price * 1.1
-            
-        return optimal_price
+```python
+import pandas as pd
+import numpy as np
+
+def analyze_price_elasticity(sales_data):
+    # Ensure data is sorted by Product and Date
+    sales_data = sales_data.sort_values(by=['Product_ID', 'Date'])
     
-    product_data['Optimal_Price'] = product_data.apply(
-        calculate_optimal_price, axis=1
+    # Calculate percentage changes in Price and Units sold
+    sales_data['Price_Pct_Change'] = sales_data.groupby('Product_ID')['Price'].pct_change()
+    sales_data['Units_Pct_Change'] = sales_data.groupby('Product_ID')['Units'].pct_change()
+    
+    # Calculate Price Elasticity of Demand (PED)
+    # Handle potential division by zero or NaN values
+    sales_data['Elasticity'] = np.where(
+        sales_data['Price_Pct_Change'] != 0,
+        sales_data['Units_Pct_Change'] / sales_data['Price_Pct_Change'],
+        np.nan
     )
     
-    return product_data
+    # Aggregate elasticity per product (e.g., median)
+    product_elasticity = sales_data.groupby('Product_ID')['Elasticity'].median().reset_index()
+    
+    return product_elasticity
+
+# Optimal pricing often involves considering cost, margin targets, 
+# competitor prices, and calculated elasticity.
+# def optimize_prices(product_data, elasticity_data, cost_data): ...
 ```
+*(Note: Our project doesn't currently implement dynamic pricing or elasticity calculations.)*
 
 ### Results
 - 8% increase in gross margins
@@ -226,7 +182,7 @@ def optimize_prices(product_data, competitor_data, cost_data):
 - 5% improvement in sales volume
 - 15% increase in category profitability
 
-## Case Study 4: Store Layout Optimization
+## Case Study 4: Store Layout Optimization (Conceptual)
 
 ### Business Context
 - Department store chain
@@ -240,49 +196,40 @@ def optimize_prices(product_data, competitor_data, cost_data):
 - Suboptimal product placement
 - Inconsistent shopping experience
 
-### Solution Implementation
-```python
-def analyze_store_layout(transaction_data, store_layout):
-    # Calculate department adjacency scores
-    def calculate_adjacency_score(dept1, dept2):
-        # Find transactions containing both departments
-        joint_transactions = transaction_data[
-            (transaction_data['Department_1'] == dept1) &
-            (transaction_data['Department_2'] == dept2)
-        ]
-        
-        return {
-            'departments': (dept1, dept2),
-            'joint_frequency': len(joint_transactions),
-            'correlation': joint_transactions['Amount'].corr()
-        }
-    
-    # Analyze customer flow
-    def analyze_customer_flow(layout_data):
-        # Calculate traffic density
-        layout_data['Traffic_Density'] = (
-            layout_data['Customer_Count'] / 
-            layout_data['Square_Footage']
-        )
-        
-        # Identify bottlenecks
-        layout_data['Is_Bottleneck'] = (
-            layout_data['Traffic_Density'] > 
-            layout_data['Traffic_Density'].quantile(0.9)
-        )
-        
-        return layout_data
+### Solution Approach (Conceptual Adjacency Analysis)
 
-    # Generate layout recommendations
-    def generate_layout_recommendations(analysis_results):
-        recommendations = {
-            'high_traffic_areas': [],
-            'suggested_relocations': [],
-            'cross_merchandising': []
-        }
-        
-        return recommendations
+```python
+import pandas as pd
+from itertools import combinations
+
+def analyze_department_adjacencies(transaction_data):
+    # Assume transaction_data has Transaction_ID, Product_ID, Department
+    
+    # Get items per transaction
+    transaction_items = transaction_data.groupby('Transaction_ID')['Department'].apply(set).reset_index()
+    
+    # Find pairs of departments bought together
+    dept_pairs = {}
+    for depts in transaction_items['Department']:
+        if len(depts) > 1:
+            for pair in combinations(sorted(list(depts)), 2):
+                dept_pairs[pair] = dept_pairs.get(pair, 0) + 1
+                
+    # Convert to DataFrame for analysis
+    adjacency_df = pd.DataFrame([
+        {'Dept1': pair[0], 'Dept2': pair[1], 'Frequency': freq}
+        for pair, freq in dept_pairs.items()
+    ])
+    adjacency_df = adjacency_df.sort_values(by='Frequency', ascending=False)
+    
+    # High frequency suggests departments could be placed closer together.
+    return adjacency_df
+
+# Further analysis could involve customer flow tracking (using sensors/video - not in our project)
+# def analyze_customer_flow(layout_data, sensor_data): ... 
+# def generate_layout_recommendations(adjacency_scores, flow_data): ...
 ```
+*(Note: Our project focuses on sales data and doesn't include layout or detailed flow analysis.)*
 
 ### Results
 - 18% increase in average transaction value
@@ -292,54 +239,17 @@ def analyze_store_layout(transaction_data, store_layout):
 
 ## Best Practices from Case Studies
 
-1. **Data Integration**
-   - Combine multiple data sources
-   - Ensure data quality and consistency
-   - Maintain historical records
-   - Regular data updates
+1.  **Data Integration**: Combine sales, inventory, customer, and operational data where possible. *(Our project primarily uses integrated sales/store/department data)*.
+2.  **Start Simple**: Begin with descriptive analytics and basic models (like aggregations, simple trends) before moving to complex ML.
+3.  **Iterative Approach**: Pilot test solutions, monitor results, and refine based on feedback.
+4.  **Focus on Actionability**: Ensure insights translate into clear business actions (e.g., changing stock levels, targeting specific customer segments).
+5.  **Technology Alignment**: Choose tools appropriate for the task (e.g., SQL for database queries, Python/JS for APIs/UI).
 
-2. **Implementation Approach**
-   - Pilot testing
-   - Phased rollout
-   - Continuous monitoring
-   - Regular refinement
+## Implementation Considerations (Relating to Our Project)
 
-3. **Change Management**
-   - Stakeholder engagement
-   - Staff training
-   - Clear communication
-   - Performance tracking
-
-4. **Technology Selection**
-   - Scalable solutions
-   - Integration capabilities
-   - User-friendly interfaces
-   - ROI consideration
-
-## Implementation Checklist
-
-1. **Project Planning**
-   - Define clear objectives
-   - Set measurable KPIs
-   - Establish timeline
-   - Allocate resources
-
-2. **Data Preparation**
-   - Data collection
-   - Quality assessment
-   - Cleaning and validation
-   - Integration testing
-
-3. **Solution Development**
-   - Prototype creation
-   - Testing and validation
-   - User feedback
-   - Refinement
-
-4. **Deployment**
-   - Staff training
-   - Pilot launch
-   - Performance monitoring
-   - Full-scale rollout
+1.  **Project Planning**: Define clear goals for the dashboard (e.g., provide overview of sales performance).
+2.  **Data Preparation**: Handled mostly in `backend/src/database/db.py` (schema, sample data) and SQL queries.
+3.  **Solution Development**: Backend API routes (`backend/src/routes`), Frontend UI and logic (`frontend/src/main.js`, `index.html`, `api.js`).
+4.  **Deployment**: Running the Flask backend server and the Vite frontend dev server.
 
 The next chapter will explore emerging trends and future directions in retail analytics. 

@@ -2,299 +2,296 @@
 
 ## Introduction to Retail Dashboard Design
 
-A well-designed retail sales dashboard is a powerful tool for providing decision-makers with clear and actionable insights. This chapter explores best practices for creating effective dashboards that serve different stakeholder needs.
+A well-designed retail sales dashboard is a powerful tool for providing decision-makers with clear and actionable insights. This chapter explores best practices for creating effective dashboards using standard HTML, CSS, and JavaScript with Bootstrap and Chart.js, reflecting the structure of our project.
 
 ## Dashboard Layout Best Practices
 
 ### Key Design Principles
-1. **Hierarchy of Information**
-   - Most important KPIs at the top
-   - Detailed analyses below
-   - Supporting information at the bottom
+1. **Hierarchy of Information**: Place key metrics (KPI cards) prominently, followed by charts, and then detailed tables.
+2. **Visual Organization**: Use a grid system (like Bootstrap's) to group related elements logically. Maintain consistent spacing and alignment.
+3. **Color Usage**: Employ a consistent theme (light/dark). Use colors purposefully in charts (e.g., brand colors, distinct colors for categories) and status indicators (e.g., green for positive trends, red for negative).
+4. **Responsiveness**: Ensure the layout adapts cleanly to different screen sizes (desktops, tablets, mobiles).
 
-2. **Visual Organization**
-   - Logical grouping of related metrics
-   - Consistent spacing and alignment
-   - Clear visual hierarchy
+### Implementation Example (`frontend/index.html` Structure)
 
-3. **Color Usage**
-   - Consistent color scheme
-   - Color coding for status indicators
-   - Accessibility considerations
+```html
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"> <!-- Theme controlled by JS -->
+<head>
+    <!-- Meta tags, Title, CSS links (Bootstrap, custom) -->
+</head>
+<body>
+    <!-- Loading Indicator -->
+    <div id="loading" class="loading-overlay">...</div>
 
-### Implementation Example
-```python
-import streamlit as st
-import plotly.express as px
-import plotly.graph_objects as go
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Brand, Theme Toggle -->
+                <!-- Navigation Links -->
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link active" href="#dashboard">...</a></li>
+                    <!-- Other nav items -->
+                </ul>
+                <!-- Live Data Summary (#data-summary-live) -->
+                <!-- Dataset Info -->
+            </div>
 
-def create_retail_dashboard():
-    st.title("Retail Analytics Dashboard")
-    
-    # Sidebar filters
-    st.sidebar.header("Filters")
-    date_range = st.sidebar.date_input("Select Date Range")
-    store_select = st.sidebar.multiselect("Select Stores")
-    dept_select = st.sidebar.multiselect("Select Departments")
-    
-    # Top KPIs
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Total Sales", "$1.2M", "+12%")
-    with col2:
-        st.metric("Customers", "45K", "+8%")
-    with col3:
-        st.metric("Avg Transaction", "$67", "-2%")
-    with col4:
-        st.metric("Conversion Rate", "34%", "+5%")
+            <!-- Main content -->
+            <main class="main-content">
+                <!-- Top Navigation Bar (Filters, Refresh, Export) -->
+                <nav class="navbar ...">
+                    <!-- Dropdowns for Time Period, Stores etc. -->
+                    <!-- Buttons for Refresh, Export -->
+                </nav>
+
+                <!-- Dynamic Content Area -->
+                <div id="main-content" class="fade-in">
+                    <!-- Content loaded by JS (loadDashboard, loadInventory, etc.) -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- JS Imports (Bootstrap bundle, main.js module) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
 ```
 
-## Stakeholder-Specific Views
+### CSS for Layout (`frontend/src/styles/analytics.css`)
 
-### Regional Manager Dashboard
-```python
-def create_regional_manager_view(sales_data):
-    # Store Performance
-    fig1 = px.bar(sales_data.groupby('Store')['Sales'].sum(),
-                  title="Store Performance Comparison")
-    
-    # Sales Trends
-    fig2 = px.line(sales_data, x='Date', y='Sales',
-                   color='Store',
-                   title="Sales Trends by Store")
-    
-    # Promotion Impact
-    fig3 = px.scatter(sales_data, x='Promotion_Spend',
-                      y='Sales', color='Store',
-                      title="Promotion Effectiveness")
-    
-    return [fig1, fig2, fig3]
+```css
+/* Basic Layout Styles */
+.container-fluid, .row {
+  height: 100vh; /* Full height layout */
+}
+
+.sidebar {
+  width: 250px; /* Fixed width */
+  padding: 1rem;
+  background-color: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1; /* Takes remaining space */
+  overflow-y: auto; /* Allows scrolling */
+  padding: 0;
+}
+
+/* Styles for cards, charts, responsiveness etc. */
+.card {
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.chart-container {
+  position: relative;
+  height: 300px; 
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .sidebar {
+    /* Styles for smaller screens if needed */
+  }
+  .main-content {
+    /* Adjustments for smaller screens */
+  }
+}
 ```
 
-### CFO Dashboard
-```python
-def create_cfo_view(sales_data):
-    # Revenue Overview
-    fig1 = go.Figure()
-    fig1.add_trace(go.Indicator(
-        mode="number+delta",
-        value=sales_data['Revenue'].sum(),
-        delta={'reference': sales_data['Target'].sum()},
-        title="Total Revenue vs Target"
-    ))
-    
-    # Profit Margins
-    fig2 = px.line(sales_data, x='Date',
-                   y=['Gross_Margin', 'Net_Margin'],
-                   title="Margin Trends")
-    
-    # Cost Analysis
-    fig3 = px.pie(sales_data, values='Cost',
-                  names='Cost_Category',
-                  title="Cost Distribution")
-    
-    return [fig1, fig2, fig3]
+## Stakeholder-Specific Views (Conceptual)
+
+While our current dashboard combines views via navigation, different stakeholders might focus on specific sections generated by functions like `loadDashboard`, `loadInventory`, etc. The *content* generated reflects their needs.
+
+### Example: Dashboard View (`loadDashboard` in `frontend/src/main.js`)
+
+Generates HTML for managers focused on overall performance:
+- KPI cards (Total Sales, Orders, Avg Order Value, Conversion Rate).
+- Charts: Sales Trend, Sales by Category, Sales by Region.
+- Table: Top Departments.
+
+```javascript
+async function loadDashboard() {
+  // ... fetch data ...
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = `
+    <div class="container-fluid py-4">
+      <!-- KPI Cards using Bootstrap cols/cards -->
+      <div class="row mb-4">
+          <div class="col-md-3"><div class="card">...Total Sales...</div></div>
+          <!-- Other KPI cards -->
+      </div>
+      <!-- Charts using Bootstrap cols/cards/canvas -->
+      <div class="row mb-4">
+        <div class="col-md-8"><div class="card"><canvas id="salesTrendChart"></canvas></div></div>
+        <div class="col-md-4"><div class="card"><canvas id="categoryChart"></canvas></div></div>
+      </div>
+      <!-- Tables/Other charts -->
+      <div class="row">
+         <div class="col-md-6"><div class="card">...Top Dept Table...</div></div>
+         <div class="col-md-6"><div class="card"><canvas id="regionalChart"></canvas></div></div>
+      </div>
+    </div>
+  `;
+  // ... initialize charts ...
+}
 ```
 
-### Inventory Planner Dashboard
-```python
-def create_inventory_planner_view(inventory_data):
-    # Stock Levels
-    fig1 = px.bar(inventory_data,
-                  x='Product',
-                  y=['Current_Stock', 'Reorder_Point'],
-                  title="Inventory Levels")
-    
-    # Stockout Risk
-    fig2 = px.scatter(inventory_data,
-                      x='Demand_Forecast',
-                      y='Current_Stock',
-                      color='Stockout_Risk',
-                      title="Stockout Risk Analysis")
-    
-    # Inventory Turnover
-    fig3 = px.line(inventory_data,
-                   x='Date',
-                   y='Turnover_Rate',
-                   title="Inventory Turnover Trend")
-    
-    return [fig1, fig2, fig3]
+### Example: Inventory View (`loadInventory` in `frontend/src/main.js`)
+
+Generates HTML focused on stock management:
+- KPI cards (Total Items, Low Stock, Inventory Value).
+- Table: Detailed Inventory List.
+
+```javascript
+async function loadInventory() {
+  // ... fetch data ...
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = `
+     <div class="container-fluid py-4">
+        <h2>Inventory Management</h2>
+        <!-- Inventory KPI Cards -->
+        <div class="row g-4 mb-4">
+           <div class="col-md-4"><div class="card">...Total Items...</div></div>
+           <!-- Other inventory cards -->
+        </div>
+        <!-- Inventory Table -->
+        <div class="row">
+          <div class="col"><div class="card">...Inventory Table...</div></div>
+        </div>
+     </div>
+  `;
+  // ... update KPI cards and populate table ...
+}
 ```
 
 ## Interactive Features
 
-### Filter Implementation
-```python
-def implement_dashboard_filters():
-    st.sidebar.header("Dashboard Filters")
-    
-    # Date Range Selector
-    start_date = st.sidebar.date_input("Start Date")
-    end_date = st.sidebar.date_input("End Date")
-    
-    # Store Selection
-    stores = st.sidebar.multiselect(
-        "Select Stores",
-        options=store_list,
-        default=store_list
-    )
-    
-    # Department Filter
-    departments = st.sidebar.multiselect(
-        "Select Departments",
-        options=dept_list,
-        default=dept_list
-    )
-    
-    # Additional Filters
-    metrics = st.sidebar.multiselect(
-        "Select Metrics",
-        options=['Sales', 'Units', 'Margin']
-    )
-    
-    return {
-        'date_range': (start_date, end_date),
-        'stores': stores,
-        'departments': departments,
-        'metrics': metrics
-    }
+### Filter Implementation (`frontend/index.html` & `frontend/src/main.js`)
+
+Filters are implemented using Bootstrap dropdowns in the navbar.
+
+```html
+<!-- In index.html navbar -->
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Time Period</a>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#" data-period="30d">Last 30 Days</a></li>
+    <!-- Other periods -->
+  </ul>
+</li>
+<!-- Similar dropdowns for Stores -->
 ```
 
-### Interactive Charts
-```python
-def create_interactive_charts(sales_data, filters):
-    # Drill-down capability
-    @st.cache
-    def get_drill_down_data(click_data):
-        store_id = click_data['points'][0]['x']
-        return sales_data[sales_data['Store'] == store_id]
-    
-    # Interactive time series
-    fig = px.line(sales_data, x='Date', y='Sales',
-                  color='Department')
-    fig.update_layout(
-        hovermode='x unified',
-        updatemenus=[dict(
-            buttons=list([
-                dict(label="Linear Scale",
-                     method="update",
-                     args=[{"yaxis.type": "linear"}]),
-                dict(label="Log Scale",
-                     method="update",
-                     args=[{"yaxis.type": "log"}])
-            ])
-        )]
-    )
-    
-    return fig
+JavaScript handles clicks and updates the state/reloads data.
+
+```javascript
+// In setupNavigation() in main.js
+document.querySelectorAll('.dropdown-item[data-period]').forEach(item => {
+  item.addEventListener('click', function(e) {
+    e.preventDefault();
+    state.filters.period = this.getAttribute('data-period');
+    // Update UI, Fetch new data based on state.filters
+    handleRoute(window.location.hash); 
+  });
+});
+// Similar listeners for store/type filters
+```
+
+### Interactive Charts (Chart.js)
+
+Chart.js provides built-in interactivity like tooltips on hover. Custom tooltips can be added.
+
+```javascript
+// In loadDashboard() chart options:
+options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { /* ... */ },
+    tooltip: {
+      enabled: true, // Default
+      mode: 'index', // Show tooltip for all datasets at that index
+      intersect: false,
+      // Custom tooltip content if needed
+      // callbacks: { label: function(context) { ... } }
+    }
+  },
+  // ... other options ...
+}
+```
+
+### Tooltips for Help (`frontend/main.js` & Bootstrap)
+
+Bootstrap tooltips are used for explaining UI elements.
+
+```javascript
+// Helper function
+function tooltipAttr(title) {
+  return `data-bs-toggle="tooltip" data-bs-placement="top" title="${title}"`;
+}
+
+// Usage in HTML generation (e.g., loadDashboard)
+mainContent.innerHTML = `
+  <h6 class="card-subtitle mb-2 text-muted" ${tooltipAttr('Total revenue from all sales...')}>Total Sales</h6>
+  ...
+  <button class="btn btn-primary" ${tooltipAttr('Open report creation wizard')} ...>Create Report</button>
+`;
+
+// Initialization (needs to run after content is added to DOM)
+function initializeTooltips() {
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+}
+
+// Called in handleRoute() after loading content:
+async function handleRoute(route) {
+  // ... load content ...
+  initializeTooltips(); // Re-initialize for new content
+}
 ```
 
 ## Performance Optimization
 
 ### Data Loading
-```python
-@st.cache_data
-def load_dashboard_data():
-    # Load and cache data
-    data = pd.read_csv('retail_data.csv')
-    data['Date'] = pd.to_datetime(data['Date'])
-    return data
-
-@st.cache_data
-def aggregate_metrics(data, groupby_cols):
-    # Perform aggregations
-    return data.groupby(groupby_cols).agg({
-        'Sales': 'sum',
-        'Units': 'sum',
-        'Margin': 'mean'
-    }).reset_index()
-```
+- **Backend**: Optimize SQL queries (indexing). Send only necessary data.
+- **Frontend**: Fetch data asynchronously (`async/await`, `Promise.all`). Show loading indicators.
 
 ### Efficient Updates
-```python
-def optimize_dashboard_updates():
-    # Use session state for persistence
-    if 'data' not in st.session_state:
-        st.session_state.data = load_dashboard_data()
-    
-    # Implement efficient filtering
-    @st.cache_data
-    def filter_data(data, filters):
-        mask = (
-            (data['Date'].between(*filters['date_range'])) &
-            (data['Store'].isin(filters['stores'])) &
-            (data['Department'].isin(filters['departments']))
-        )
-        return data[mask]
-```
+- **Frontend**: 
+    - Only fetch data needed for the current view.
+    - Avoid re-rendering the entire page; update specific DOM elements.
+    - Destroy old Chart.js instances before creating new ones (`destroyActiveCharts`).
 
-## Implementation Guide
+```javascript
+// In main.js
+let activeCharts = [];
 
-### 1. Setup and Configuration
-```python
-def setup_dashboard():
-    # Configure page settings
-    st.set_page_config(
-        page_title="Retail Analytics Dashboard",
-        page_icon="📊",
-        layout="wide"
-    )
-    
-    # Initialize session state
-    if 'initialized' not in st.session_state:
-        st.session_state.initialized = True
-        st.session_state.data = load_dashboard_data()
-        st.session_state.filters = get_default_filters()
-```
+function destroyActiveCharts() {
+  activeCharts.forEach(chart => chart.destroy());
+  activeCharts = [];
+}
 
-### 2. Main Dashboard Structure
-```python
-def main_dashboard():
-    # Sidebar
-    filters = implement_dashboard_filters()
-    
-    # Main content
-    st.title("Retail Analytics Dashboard")
-    
-    # KPI Row
-    display_kpi_metrics()
-    
-    # Charts
-    col1, col2 = st.columns(2)
-    with col1:
-        display_sales_trends()
-    with col2:
-        display_performance_metrics()
-    
-    # Detailed Analysis
-    st.header("Detailed Analysis")
-    display_detailed_analysis()
+async function handleRoute(route) {
+  // ...
+  destroyActiveCharts(); // Before loading new content/charts
+  // ... load content ...
+  // ... initialize new charts and push to activeCharts ...
+}
 ```
 
 ## Best Practices Summary
 
-1. **User Experience**
-   - Intuitive navigation
-   - Clear data presentation
-   - Responsive design
-   - Helpful tooltips
-
-2. **Performance**
-   - Efficient data loading
-   - Optimized calculations
-   - Proper caching
-   - Regular maintenance
-
-3. **Functionality**
-   - Relevant filters
-   - Drill-down capabilities
-   - Export options
-   - Automated updates
-
-4. **Design**
-   - Consistent layout
-   - Clear hierarchy
-   - Appropriate visualizations
-   - Professional appearance
+1. **User Experience**: Intuitive navigation (sidebar), clear element hierarchy (cards, charts), responsive design (Bootstrap grid), helpful tooltips.
+2. **Performance**: Async data fetching, targeted DOM updates, chart instance management, backend query optimization.
+3. **Functionality**: Relevant filters (dropdowns), interactive charts (Chart.js defaults), clear action buttons (Refresh, Export).
+4. **Design**: Consistent layout (`index.html` structure, CSS), clear visual hierarchy, appropriate chart choices (line, bar, doughnut via Chart.js).
 
 The next chapter will explore real-world applications and case studies of retail analytics implementations. 
